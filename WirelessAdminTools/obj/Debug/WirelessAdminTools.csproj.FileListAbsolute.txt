@@ -1,0 +1,12 @@
+D:\3_C#\WifiScanner\WifiScanner\bin\Debug\WirelessAdminTools.exe.config
+D:\3_C#\WifiScanner\WifiScanner\bin\Debug\WirelessAdminTools.exe
+D:\3_C#\WifiScanner\WifiScanner\bin\Debug\WirelessAdminTools.pdb
+D:\3_C#\WifiScanner\WifiScanner\bin\Debug\ManagedWifi.dll
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.csprojAssemblyReference.cache
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.Properties.Resources.resources
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.csproj.GenerateResource.cache
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.csproj.CoreCompileInputs.cache
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.csproj.CopyComplete
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.exe
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.pdb
+D:\3_C#\WifiScanner\WifiScanner\obj\Debug\WirelessAdminTools.WifiForm.resources
