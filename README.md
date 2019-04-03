@@ -16,7 +16,7 @@ I also plan on adding a way to disconnect from the network and connect to anothe
 
 Below is an example screenshot of what I currently have:
 
-![alt text](https://github.com/rytrotter/Wireless-Administration-Tool/blob/master/Wifi_Example_ScreenShot.png)
+![alt text](https://github.com/rytrotter/Wireless-Administration-Tool/blob/rytrotter-patch-1/Wifi_Example_ScreenShot.png)
 
 
 ## Bluetooth Tools
