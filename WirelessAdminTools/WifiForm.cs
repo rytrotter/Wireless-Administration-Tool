@@ -39,6 +39,8 @@ namespace WirelessAdminTools
             UpdateConnectionState();
             ShowCurrentConnectedNetwork();
             ShowCurrentIPv4Address();
+            ShowCurrentGatewayAddress();
+            ShowCurrentIPv4Netmask();
             ShowCurrentIPv6Address();
         }
 
@@ -85,6 +87,16 @@ namespace WirelessAdminTools
             ipv4LableBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentIPv4();
         }
 
+        private void ShowCurrentGatewayAddress()
+        {
+            gatewayLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
+        }
+
+        private void ShowCurrentIPv4Netmask()
+        {
+          ipv4NetmaskLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnIPv4Netmask();
+        }
+
         private void ShowCurrentIPv6Address()
         {
             ipv6LableBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentIPv6();
@@ -101,21 +113,43 @@ namespace WirelessAdminTools
 
         }
 
-        private void currentNetworkInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CurrentNetworkInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshCurrentNetworkInformation();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(
+            if ( MessageBox.Show(
                 "Developed by Ryan Trotter\n\nVisit developer's Github page?",
                 "About",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information) == DialogResult.Yes)
+                MessageBoxIcon.Information) == DialogResult.Yes )
             {
                 System.Diagnostics.Process.Start("https://www.github.com/rytrotter");
             }
+        }
+
+        private void openGatewayButton_Click(object sender, EventArgs e)
+        {
+            string gatewayAddress = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
+            try
+            {
+                    System.Diagnostics.Process.Start(gatewayAddress);
+            }
+            catch
+            {
+                MessageBox.Show(
+                        "An error occured when trying to connect to the gateway address: " + gatewayAddress + "\nPlease try again later.",
+                        "Connection Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+            WifiAdminTools.CurrentNetworkSettings.RenewAdapter();
         }
     }
 }

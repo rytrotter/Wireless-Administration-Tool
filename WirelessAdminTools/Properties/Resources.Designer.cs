@@ -59,5 +59,15 @@ namespace WirelessAdminTools.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GoToNewPage_Icon {
+            get {
+                object obj = ResourceManager.GetObject("GoToNewPage_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

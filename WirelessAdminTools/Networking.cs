@@ -9,7 +9,7 @@ namespace WifiAdminTools
     {
         public static WlanClient client = new WlanClient(); // Making this a method prevents too many sessions opening and causing errors
 
-        public class NetworkInfo
+        public class ScannedNetworkInfo
         {
             public string SSID { get; set; }
             public string SecurityType { get; set; }

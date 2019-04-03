@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using NativeWifi;
@@ -79,6 +79,45 @@ namespace WifiAdminTools
             }
 
             return SocketError.NotConnected.ToString();
+        }
+
+        public static string ReturnIPv4Netmask()
+        {
+            foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
+            {
+                foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().UnicastAddresses)
+                {
+                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return ipAddr.IPv4Mask.ToString();
+                    }
+                }
+            }
+            return SocketError.NotConnected.ToString();
+        }
+
+        public static string ReturnCurrentGateway()
+        {
+            foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
+            {
+                foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().GatewayAddresses)
+                {
+                    return ipAddr.Address.ToString();
+                }
+            }
+            return SocketError.NotConnected.ToString();
+        }
+
+        public static void RenewAdapter()
+        {
+            ProcessStartInfo procStartInfo = new ProcessStartInfo
+            {
+                FileName = "ipconfig",
+                Arguments = "/renew",
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            Process proc = Process.Start(procStartInfo);
+            proc.WaitForExit();
         }
 
     }
