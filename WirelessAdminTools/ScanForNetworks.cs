@@ -8,9 +8,9 @@ namespace WifiAdminTools
     class ScanForNetworks
     {
 
-        public static List<Networking.NetworkInfo> GatherScannedNetworkInfo()
+        public static List<Networking.ScannedNetworkInfo> GatherScannedNetworkInfo()
         {
-            List<Networking.NetworkInfo> listOfNetworks = new List<Networking.NetworkInfo>();
+            List<Networking.ScannedNetworkInfo> listOfNetworks = new List<Networking.ScannedNetworkInfo>();
             
             // Gathers interfaces to use
             foreach ( WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces )
@@ -19,13 +19,20 @@ namespace WifiAdminTools
                 // Goes through each networkIndex it sees to parse information
                 foreach (Wlan.WlanAvailableNetwork networkIndex in scannedNetworks)
                 {
-                    Networking.NetworkInfo networkInfo = new Networking.NetworkInfo();
+                    Networking.ScannedNetworkInfo networkInfo = new Networking.ScannedNetworkInfo();
                     Wlan.Dot11Ssid ssid = networkIndex.dot11Ssid;
                     string networkName = "";
 
-                    if ( string.IsNullOrEmpty(Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength) ) || Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength) == " ")
+                    networkName = Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);
+
+                    if ( string.IsNullOrEmpty(networkName) )
                     {
                         networkName = "*Hidden Network*";
+                    }
+                    else if ( networkName == CurrentNetworkSettings.ReturnNetworkName() )
+                    {
+                        // Prevents your current connected network from showing in the available network list
+                        continue;
                     }
                     else
                     {
@@ -33,9 +40,9 @@ namespace WifiAdminTools
                     }
 
                     string networkSecurity = networkIndex.dot11DefaultCipherAlgorithm.ToString();
-                    string networkSignalStrength = networkIndex.wlanSignalQuality.ToString();
+                    string networkSignalStrength = networkIndex.wlanSignalQuality.ToString() + "%";
 
-                    listOfNetworks.Add(new Networking.NetworkInfo
+                    listOfNetworks.Add(new Networking.ScannedNetworkInfo
                         {
                             SSID = networkName,
                             SecurityType = networkSecurity,

@@ -36,10 +36,22 @@ namespace WirelessAdminTools
             this.strengthHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ssidScanButton = new System.Windows.Forms.Button();
             this.currentNetworkGroupBox = new System.Windows.Forms.GroupBox();
-            this.ipv6LableBox = new System.Windows.Forms.Label();
+            this.renewButton = new System.Windows.Forms.Button();
+            this.ipv6GroupBox = new System.Windows.Forms.GroupBox();
             this.ipv6PromptLabelBox = new System.Windows.Forms.Label();
-            this.ipv4LableBox = new System.Windows.Forms.Label();
+            this.ipv6LableBox = new System.Windows.Forms.Label();
+            this.ipv4GroupBox = new System.Windows.Forms.GroupBox();
+            this.macAddressLabel = new System.Windows.Forms.Label();
+            this.macAddressPromptLabel = new System.Windows.Forms.Label();
+            this.dnsServersGroupBox = new System.Windows.Forms.GroupBox();
+            this.dnsServersListBox = new System.Windows.Forms.ListBox();
+            this.openGatewayButton = new System.Windows.Forms.Button();
             this.ipv4PromptLabelBox = new System.Windows.Forms.Label();
+            this.ipv4NetmaskPromptLabelBox = new System.Windows.Forms.Label();
+            this.ipv4NetmaskLabelBox = new System.Windows.Forms.Label();
+            this.gatewayLabelBox = new System.Windows.Forms.Label();
+            this.ipv4LableBox = new System.Windows.Forms.Label();
+            this.gatewayPromptLabelBox = new System.Windows.Forms.Label();
             this.networkNameLabelBox = new System.Windows.Forms.Label();
             this.connectedNetNameLabelBox = new System.Windows.Forms.Label();
             this.connectionStatePicBox = new System.Windows.Forms.PictureBox();
@@ -52,9 +64,14 @@ namespace WirelessAdminTools
             this.currentNetworkInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thisProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             rootColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ssidGroupBox.SuspendLayout();
             this.currentNetworkGroupBox.SuspendLayout();
+            this.ipv6GroupBox.SuspendLayout();
+            this.ipv4GroupBox.SuspendLayout();
+            this.dnsServersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.connectionStatePicBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -117,66 +134,189 @@ namespace WirelessAdminTools
             this.ssidScanButton.TabIndex = 1;
             this.ssidScanButton.Text = "Rescan Networks";
             this.ssidScanButton.UseVisualStyleBackColor = true;
-            this.ssidScanButton.Click += new System.EventHandler(this.ssidScanButton_Click);
+            this.ssidScanButton.Click += new System.EventHandler(this.SsidScanButton_Click);
             // 
             // currentNetworkGroupBox
             // 
             this.currentNetworkGroupBox.BackColor = System.Drawing.SystemColors.Control;
-            this.currentNetworkGroupBox.Controls.Add(this.ipv6LableBox);
-            this.currentNetworkGroupBox.Controls.Add(this.ipv6PromptLabelBox);
-            this.currentNetworkGroupBox.Controls.Add(this.ipv4LableBox);
-            this.currentNetworkGroupBox.Controls.Add(this.ipv4PromptLabelBox);
+            this.currentNetworkGroupBox.Controls.Add(this.renewButton);
+            this.currentNetworkGroupBox.Controls.Add(this.ipv6GroupBox);
+            this.currentNetworkGroupBox.Controls.Add(this.ipv4GroupBox);
             this.currentNetworkGroupBox.Controls.Add(this.networkNameLabelBox);
             this.currentNetworkGroupBox.Controls.Add(this.connectedNetNameLabelBox);
             this.currentNetworkGroupBox.Controls.Add(this.connectionStatePicBox);
             this.currentNetworkGroupBox.Controls.Add(this.connectionStateLabelBox);
-            this.currentNetworkGroupBox.Location = new System.Drawing.Point(675, 44);
+            this.currentNetworkGroupBox.Location = new System.Drawing.Point(648, 44);
             this.currentNetworkGroupBox.Name = "currentNetworkGroupBox";
-            this.currentNetworkGroupBox.Size = new System.Drawing.Size(376, 460);
+            this.currentNetworkGroupBox.Size = new System.Drawing.Size(403, 460);
             this.currentNetworkGroupBox.TabIndex = 2;
             this.currentNetworkGroupBox.TabStop = false;
             this.currentNetworkGroupBox.Text = "Current Network Settings";
             // 
-            // ipv6LableBox
+            // renewButton
             // 
-            this.ipv6LableBox.AutoSize = true;
-            this.ipv6LableBox.Location = new System.Drawing.Point(147, 141);
-            this.ipv6LableBox.Name = "ipv6LableBox";
-            this.ipv6LableBox.Size = new System.Drawing.Size(82, 17);
-            this.ipv6LableBox.TabIndex = 8;
-            this.ipv6LableBox.Text = "placeholder";
+            this.renewButton.Location = new System.Drawing.Point(9, 420);
+            this.renewButton.Name = "renewButton";
+            this.renewButton.Size = new System.Drawing.Size(94, 34);
+            this.renewButton.TabIndex = 5;
+            this.renewButton.Text = "Renew IP";
+            this.renewButton.UseVisualStyleBackColor = true;
+            this.renewButton.Click += new System.EventHandler(this.RenewButton_Click);
+            // 
+            // ipv6GroupBox
+            // 
+            this.ipv6GroupBox.Controls.Add(this.ipv6PromptLabelBox);
+            this.ipv6GroupBox.Controls.Add(this.ipv6LableBox);
+            this.ipv6GroupBox.Location = new System.Drawing.Point(6, 335);
+            this.ipv6GroupBox.Name = "ipv6GroupBox";
+            this.ipv6GroupBox.Size = new System.Drawing.Size(391, 65);
+            this.ipv6GroupBox.TabIndex = 14;
+            this.ipv6GroupBox.TabStop = false;
+            this.ipv6GroupBox.Text = "IPv6 Information";
             // 
             // ipv6PromptLabelBox
             // 
             this.ipv6PromptLabelBox.AutoSize = true;
-            this.ipv6PromptLabelBox.Location = new System.Drawing.Point(40, 141);
+            this.ipv6PromptLabelBox.Location = new System.Drawing.Point(20, 29);
             this.ipv6PromptLabelBox.Name = "ipv6PromptLabelBox";
-            this.ipv6PromptLabelBox.Size = new System.Drawing.Size(90, 17);
+            this.ipv6PromptLabelBox.Size = new System.Drawing.Size(95, 17);
             this.ipv6PromptLabelBox.TabIndex = 7;
-            this.ipv6PromptLabelBox.Text = "Current IPv6:";
+            this.ipv6PromptLabelBox.Text = "IPv6 Address:";
             // 
-            // ipv4LableBox
+            // ipv6LableBox
             // 
-            this.ipv4LableBox.AutoSize = true;
-            this.ipv4LableBox.Location = new System.Drawing.Point(147, 124);
-            this.ipv4LableBox.Name = "ipv4LableBox";
-            this.ipv4LableBox.Size = new System.Drawing.Size(82, 17);
-            this.ipv4LableBox.TabIndex = 6;
-            this.ipv4LableBox.Text = "placeholder";
+            this.ipv6LableBox.AutoSize = true;
+            this.ipv6LableBox.Location = new System.Drawing.Point(127, 29);
+            this.ipv6LableBox.Name = "ipv6LableBox";
+            this.ipv6LableBox.Size = new System.Drawing.Size(89, 17);
+            this.ipv6LableBox.TabIndex = 8;
+            this.ipv6LableBox.Text = "ipv6 address";
+            // 
+            // ipv4GroupBox
+            // 
+            this.ipv4GroupBox.Controls.Add(this.macAddressLabel);
+            this.ipv4GroupBox.Controls.Add(this.macAddressPromptLabel);
+            this.ipv4GroupBox.Controls.Add(this.dnsServersGroupBox);
+            this.ipv4GroupBox.Controls.Add(this.openGatewayButton);
+            this.ipv4GroupBox.Controls.Add(this.ipv4PromptLabelBox);
+            this.ipv4GroupBox.Controls.Add(this.ipv4NetmaskPromptLabelBox);
+            this.ipv4GroupBox.Controls.Add(this.ipv4NetmaskLabelBox);
+            this.ipv4GroupBox.Controls.Add(this.gatewayLabelBox);
+            this.ipv4GroupBox.Controls.Add(this.ipv4LableBox);
+            this.ipv4GroupBox.Controls.Add(this.gatewayPromptLabelBox);
+            this.ipv4GroupBox.Location = new System.Drawing.Point(6, 72);
+            this.ipv4GroupBox.Name = "ipv4GroupBox";
+            this.ipv4GroupBox.Size = new System.Drawing.Size(391, 257);
+            this.ipv4GroupBox.TabIndex = 13;
+            this.ipv4GroupBox.TabStop = false;
+            this.ipv4GroupBox.Text = "IPv4 Information";
+            // 
+            // macAddressLabel
+            // 
+            this.macAddressLabel.AutoSize = true;
+            this.macAddressLabel.Location = new System.Drawing.Point(226, 46);
+            this.macAddressLabel.Name = "macAddressLabel";
+            this.macAddressLabel.Size = new System.Drawing.Size(89, 17);
+            this.macAddressLabel.TabIndex = 16;
+            this.macAddressLabel.Text = "mac address";
+            // 
+            // macAddressPromptLabel
+            // 
+            this.macAddressPromptLabel.AutoSize = true;
+            this.macAddressPromptLabel.Location = new System.Drawing.Point(214, 29);
+            this.macAddressPromptLabel.Name = "macAddressPromptLabel";
+            this.macAddressPromptLabel.Size = new System.Drawing.Size(97, 17);
+            this.macAddressPromptLabel.TabIndex = 15;
+            this.macAddressPromptLabel.Text = "MAC Address:";
+            // 
+            // dnsServersGroupBox
+            // 
+            this.dnsServersGroupBox.Controls.Add(this.dnsServersListBox);
+            this.dnsServersGroupBox.Location = new System.Drawing.Point(229, 76);
+            this.dnsServersGroupBox.Name = "dnsServersGroupBox";
+            this.dnsServersGroupBox.Size = new System.Drawing.Size(149, 103);
+            this.dnsServersGroupBox.TabIndex = 14;
+            this.dnsServersGroupBox.TabStop = false;
+            this.dnsServersGroupBox.Text = "DNS Servers";
+            // 
+            // dnsServersListBox
+            // 
+            this.dnsServersListBox.FormattingEnabled = true;
+            this.dnsServersListBox.ItemHeight = 16;
+            this.dnsServersListBox.Location = new System.Drawing.Point(6, 29);
+            this.dnsServersListBox.Name = "dnsServersListBox";
+            this.dnsServersListBox.Size = new System.Drawing.Size(137, 68);
+            this.dnsServersListBox.TabIndex = 13;
+            // 
+            // openGatewayButton
+            // 
+            this.openGatewayButton.BackgroundImage = global::WirelessAdminTools.Properties.Resources.GoToNewPage_Icon;
+            this.openGatewayButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.openGatewayButton.Location = new System.Drawing.Point(149, 82);
+            this.openGatewayButton.Name = "openGatewayButton";
+            this.openGatewayButton.Size = new System.Drawing.Size(23, 23);
+            this.openGatewayButton.TabIndex = 5;
+            this.openGatewayButton.UseVisualStyleBackColor = true;
+            this.openGatewayButton.Click += new System.EventHandler(this.OpenGatewayButton_Click);
             // 
             // ipv4PromptLabelBox
             // 
             this.ipv4PromptLabelBox.AutoSize = true;
-            this.ipv4PromptLabelBox.Location = new System.Drawing.Point(40, 124);
+            this.ipv4PromptLabelBox.Location = new System.Drawing.Point(20, 29);
             this.ipv4PromptLabelBox.Name = "ipv4PromptLabelBox";
-            this.ipv4PromptLabelBox.Size = new System.Drawing.Size(90, 17);
+            this.ipv4PromptLabelBox.Size = new System.Drawing.Size(95, 17);
             this.ipv4PromptLabelBox.TabIndex = 5;
-            this.ipv4PromptLabelBox.Text = "Current IPv4:";
+            this.ipv4PromptLabelBox.Text = "IPv4 Address:";
+            // 
+            // ipv4NetmaskPromptLabelBox
+            // 
+            this.ipv4NetmaskPromptLabelBox.AutoSize = true;
+            this.ipv4NetmaskPromptLabelBox.Location = new System.Drawing.Point(20, 141);
+            this.ipv4NetmaskPromptLabelBox.Name = "ipv4NetmaskPromptLabelBox";
+            this.ipv4NetmaskPromptLabelBox.Size = new System.Drawing.Size(98, 17);
+            this.ipv4NetmaskPromptLabelBox.TabIndex = 9;
+            this.ipv4NetmaskPromptLabelBox.Text = "IPv4 Netmask:";
+            // 
+            // ipv4NetmaskLabelBox
+            // 
+            this.ipv4NetmaskLabelBox.AutoSize = true;
+            this.ipv4NetmaskLabelBox.Location = new System.Drawing.Point(36, 161);
+            this.ipv4NetmaskLabelBox.Name = "ipv4NetmaskLabelBox";
+            this.ipv4NetmaskLabelBox.Size = new System.Drawing.Size(91, 17);
+            this.ipv4NetmaskLabelBox.TabIndex = 10;
+            this.ipv4NetmaskLabelBox.Text = "ipv4 netmask";
+            // 
+            // gatewayLabelBox
+            // 
+            this.gatewayLabelBox.AutoSize = true;
+            this.gatewayLabelBox.Location = new System.Drawing.Point(35, 102);
+            this.gatewayLabelBox.Name = "gatewayLabelBox";
+            this.gatewayLabelBox.Size = new System.Drawing.Size(115, 17);
+            this.gatewayLabelBox.TabIndex = 12;
+            this.gatewayLabelBox.Text = "gateway address";
+            // 
+            // ipv4LableBox
+            // 
+            this.ipv4LableBox.AutoSize = true;
+            this.ipv4LableBox.Location = new System.Drawing.Point(35, 46);
+            this.ipv4LableBox.Name = "ipv4LableBox";
+            this.ipv4LableBox.Size = new System.Drawing.Size(89, 17);
+            this.ipv4LableBox.TabIndex = 6;
+            this.ipv4LableBox.Text = "ipv4 address";
+            // 
+            // gatewayPromptLabelBox
+            // 
+            this.gatewayPromptLabelBox.AutoSize = true;
+            this.gatewayPromptLabelBox.Location = new System.Drawing.Point(20, 85);
+            this.gatewayPromptLabelBox.Name = "gatewayPromptLabelBox";
+            this.gatewayPromptLabelBox.Size = new System.Drawing.Size(123, 17);
+            this.gatewayPromptLabelBox.TabIndex = 11;
+            this.gatewayPromptLabelBox.Text = "Gateway Address:";
             // 
             // networkNameLabelBox
             // 
             this.networkNameLabelBox.AutoSize = true;
-            this.networkNameLabelBox.Location = new System.Drawing.Point(147, 95);
+            this.networkNameLabelBox.Location = new System.Drawing.Point(271, 52);
             this.networkNameLabelBox.Name = "networkNameLabelBox";
             this.networkNameLabelBox.Size = new System.Drawing.Size(82, 17);
             this.networkNameLabelBox.TabIndex = 4;
@@ -185,7 +325,7 @@ namespace WirelessAdminTools
             // connectedNetNameLabelBox
             // 
             this.connectedNetNameLabelBox.AutoSize = true;
-            this.connectedNetNameLabelBox.Location = new System.Drawing.Point(6, 95);
+            this.connectedNetNameLabelBox.Location = new System.Drawing.Point(220, 35);
             this.connectedNetNameLabelBox.Name = "connectedNetNameLabelBox";
             this.connectedNetNameLabelBox.Size = new System.Drawing.Size(135, 17);
             this.connectedNetNameLabelBox.TabIndex = 3;
@@ -193,7 +333,7 @@ namespace WirelessAdminTools
             // 
             // connectionStatePicBox
             // 
-            this.connectionStatePicBox.Location = new System.Drawing.Point(136, 27);
+            this.connectionStatePicBox.Location = new System.Drawing.Point(126, 35);
             this.connectionStatePicBox.Name = "connectionStatePicBox";
             this.connectionStatePicBox.Size = new System.Drawing.Size(30, 30);
             this.connectionStatePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -211,13 +351,13 @@ namespace WirelessAdminTools
             // 
             // reloadNetInfoButton
             // 
-            this.reloadNetInfoButton.Location = new System.Drawing.Point(675, 510);
+            this.reloadNetInfoButton.Location = new System.Drawing.Point(648, 510);
             this.reloadNetInfoButton.Name = "reloadNetInfoButton";
-            this.reloadNetInfoButton.Size = new System.Drawing.Size(376, 31);
+            this.reloadNetInfoButton.Size = new System.Drawing.Size(403, 31);
             this.reloadNetInfoButton.TabIndex = 3;
             this.reloadNetInfoButton.Text = "Refresh Network Information";
             this.reloadNetInfoButton.UseVisualStyleBackColor = true;
-            this.reloadNetInfoButton.Click += new System.EventHandler(this.reloadNetInfoButton_Click);
+            this.reloadNetInfoButton.Click += new System.EventHandler(this.ReloadNetInfoButton_Click);
             // 
             // menuStrip1
             // 
@@ -248,7 +388,7 @@ namespace WirelessAdminTools
             this.availableNetworksToolStripMenuItem,
             this.currentNetworkInformationToolStripMenuItem});
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.refreshToolStripMenuItem.Text = "Refresh...";
             // 
             // availableNetworksToolStripMenuItem
@@ -256,29 +396,45 @@ namespace WirelessAdminTools
             this.availableNetworksToolStripMenuItem.Name = "availableNetworksToolStripMenuItem";
             this.availableNetworksToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
             this.availableNetworksToolStripMenuItem.Text = "Available Networks";
-            this.availableNetworksToolStripMenuItem.Click += new System.EventHandler(this.availableNetworksToolStripMenuItem_Click);
+            this.availableNetworksToolStripMenuItem.Click += new System.EventHandler(this.AvailableNetworksToolStripMenuItem_Click);
             // 
             // currentNetworkInformationToolStripMenuItem
             // 
             this.currentNetworkInformationToolStripMenuItem.Name = "currentNetworkInformationToolStripMenuItem";
             this.currentNetworkInformationToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
             this.currentNetworkInformationToolStripMenuItem.Text = "Current Network Information";
-            this.currentNetworkInformationToolStripMenuItem.Click += new System.EventHandler(this.currentNetworkInformationToolStripMenuItem_Click);
+            this.currentNetworkInformationToolStripMenuItem.Click += new System.EventHandler(this.CurrentNetworkInformationToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.developerToolStripMenuItem,
+            this.thisProjectToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
             this.aboutToolStripMenuItem.Text = "   About    ";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // developerToolStripMenuItem
+            // 
+            this.developerToolStripMenuItem.Name = "developerToolStripMenuItem";
+            this.developerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.developerToolStripMenuItem.Text = "Developer";
+            this.developerToolStripMenuItem.Click += new System.EventHandler(this.DeveloperToolStripMenuItem_Click);
+            // 
+            // thisProjectToolStripMenuItem
+            // 
+            this.thisProjectToolStripMenuItem.Name = "thisProjectToolStripMenuItem";
+            this.thisProjectToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.thisProjectToolStripMenuItem.Text = "This Project";
+            this.thisProjectToolStripMenuItem.Click += new System.EventHandler(this.ThisProjectToolStripMenuItem_Click);
             // 
             // WifiForm
             // 
@@ -297,6 +453,11 @@ namespace WirelessAdminTools
             this.ssidGroupBox.ResumeLayout(false);
             this.currentNetworkGroupBox.ResumeLayout(false);
             this.currentNetworkGroupBox.PerformLayout();
+            this.ipv6GroupBox.ResumeLayout(false);
+            this.ipv6GroupBox.PerformLayout();
+            this.ipv4GroupBox.ResumeLayout(false);
+            this.ipv4GroupBox.PerformLayout();
+            this.dnsServersGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.connectionStatePicBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -330,6 +491,20 @@ namespace WirelessAdminTools
         private System.Windows.Forms.ToolStripMenuItem currentNetworkInformationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Label ipv4NetmaskLabelBox;
+        private System.Windows.Forms.Label ipv4NetmaskPromptLabelBox;
+        private System.Windows.Forms.Label gatewayLabelBox;
+        private System.Windows.Forms.Label gatewayPromptLabelBox;
+        private System.Windows.Forms.GroupBox ipv6GroupBox;
+        private System.Windows.Forms.GroupBox ipv4GroupBox;
+        private System.Windows.Forms.Button openGatewayButton;
+        private System.Windows.Forms.Button renewButton;
+        private System.Windows.Forms.GroupBox dnsServersGroupBox;
+        private System.Windows.Forms.ListBox dnsServersListBox;
+        private System.Windows.Forms.Label macAddressLabel;
+        private System.Windows.Forms.Label macAddressPromptLabel;
+        private System.Windows.Forms.ToolStripMenuItem developerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem thisProjectToolStripMenuItem;
     }
 }
 

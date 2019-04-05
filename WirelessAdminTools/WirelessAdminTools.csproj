@@ -87,6 +87,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\GoToNewPage_Icon.png" />
     <Content Include="Assets\greenCheckMark.png" />
     <Content Include="Assets\redXMark.png" />
   </ItemGroup>
