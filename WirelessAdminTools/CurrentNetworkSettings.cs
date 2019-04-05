@@ -3,6 +3,8 @@ using System.Net.Sockets;
 using System.Text;
 using NativeWifi;
 using System.Net;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WifiAdminTools
 {
@@ -118,6 +120,38 @@ namespace WifiAdminTools
             };
             Process proc = Process.Start(procStartInfo);
             proc.WaitForExit();
+        }
+
+        public static List<string> ReturnDNSServers()
+        {
+            List<string> dnsServerAddresses = new List<string>();
+
+            foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
+            {
+                foreach (var dnsAddr in wlanInterface.NetworkInterface.GetIPProperties().DnsAddresses)
+                {
+                    if (string.IsNullOrWhiteSpace(dnsAddr.ToString()))
+                    {
+                        dnsServerAddresses.Add(SocketError.NotConnected.ToString());
+                    }
+                    else
+                    {
+                        dnsServerAddresses.Add(dnsAddr.ToString());
+                    }
+                }
+            }
+            return dnsServerAddresses;
+        }
+
+        public static string ReturnMacAddress()
+        {
+            string macAddress = string.Empty;
+            foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
+            {
+                macAddress = string.Join(":", (from i in wlanInterface.NetworkInterface.GetPhysicalAddress().GetAddressBytes() select i.ToString("X2")).ToArray());
+            }
+
+            return macAddress;
         }
 
     }

@@ -23,11 +23,13 @@ namespace WifiAdminTools
                     Wlan.Dot11Ssid ssid = networkIndex.dot11Ssid;
                     string networkName = "";
 
-                    if ( string.IsNullOrEmpty(Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength)) )
+                    networkName = Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);
+
+                    if ( string.IsNullOrEmpty(networkName) )
                     {
                         networkName = "*Hidden Network*";
                     }
-                    else if ( (Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength)) == CurrentNetworkSettings.ReturnNetworkName() )
+                    else if ( networkName == CurrentNetworkSettings.ReturnNetworkName() )
                     {
                         // Prevents your current connected network from showing in the available network list
                         continue;
@@ -38,7 +40,7 @@ namespace WifiAdminTools
                     }
 
                     string networkSecurity = networkIndex.dot11DefaultCipherAlgorithm.ToString();
-                    string networkSignalStrength = networkIndex.wlanSignalQuality.ToString();
+                    string networkSignalStrength = networkIndex.wlanSignalQuality.ToString() + "%";
 
                     listOfNetworks.Add(new Networking.ScannedNetworkInfo
                         {

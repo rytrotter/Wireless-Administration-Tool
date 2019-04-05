@@ -13,23 +13,23 @@ namespace WirelessAdminTools
             InitializeComponent();
 
             // Load available networks on startup
-            LoadUpdateNetworkList();
+            LoadUpdateScannedNetworkList();
 
             // Load current network information on startup
             RefreshCurrentNetworkInformation();
         }
 
-        private void ssidScanButton_Click(object sender, EventArgs e)
+        private void SsidScanButton_Click(object sender, EventArgs e)
         {
-            LoadUpdateNetworkList();
+            LoadUpdateScannedNetworkList();
         }
 
-        private void reloadNetInfoButton_Click(object sender, EventArgs e)
+        private void ReloadNetInfoButton_Click(object sender, EventArgs e)
         {
             RefreshCurrentNetworkInformation();
         }
 
-        private void networkListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void NetworkListView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -42,9 +42,11 @@ namespace WirelessAdminTools
             ShowCurrentGatewayAddress();
             ShowCurrentIPv4Netmask();
             ShowCurrentIPv6Address();
+            LoadUpdateDNSServers();
+            LoadMacAddress();
         }
 
-        private void LoadUpdateNetworkList()
+        private void LoadUpdateScannedNetworkList()
         {
             networkListView.Items.Clear();
 
@@ -57,10 +59,17 @@ namespace WirelessAdminTools
                 ListViewItem.ListViewSubItem networkSec = new ListViewItem.ListViewSubItem(networkListViewRow, networkList[i].SecurityType);
                 ListViewItem.ListViewSubItem networkStrength = new ListViewItem.ListViewSubItem(networkListViewRow, networkList[i].SignalStrength);
 
-                networkListViewRow.SubItems.Add(networkName);
-                networkListViewRow.SubItems.Add(networkSec);
-                networkListViewRow.SubItems.Add(networkStrength);
-                networkListView.Items.Add(networkListViewRow);
+                if (networkList != null)
+                {
+                    networkListViewRow.SubItems.Add(networkName);
+                    networkListViewRow.SubItems.Add(networkSec);
+                    networkListViewRow.SubItems.Add(networkStrength);
+                    networkListView.Items.Add(networkListViewRow);
+                }
+                else
+                {
+                    networkListView.Items.Add("There are no networks available to show.");
+                }
             }
         }
 
@@ -102,14 +111,14 @@ namespace WirelessAdminTools
             ipv6LableBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentIPv6();
         }
 
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
-        private void availableNetworksToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AvailableNetworksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadUpdateNetworkList();
+            LoadUpdateScannedNetworkList();
 
         }
 
@@ -118,19 +127,7 @@ namespace WirelessAdminTools
             RefreshCurrentNetworkInformation();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if ( MessageBox.Show(
-                "Developed by Ryan Trotter\n\nVisit developer's Github page?",
-                "About",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information) == DialogResult.Yes )
-            {
-                System.Diagnostics.Process.Start("https://www.github.com/rytrotter");
-            }
-        }
-
-        private void openGatewayButton_Click(object sender, EventArgs e)
+        private void OpenGatewayButton_Click(object sender, EventArgs e)
         {
             string gatewayAddress = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
             try
@@ -147,9 +144,52 @@ namespace WirelessAdminTools
             }
         }
 
-        private void disconnectButton_Click(object sender, EventArgs e)
+        private void RenewButton_Click(object sender, EventArgs e)
         {
             WifiAdminTools.CurrentNetworkSettings.RenewAdapter();
+            MessageBox.Show(
+                "IP address has been renewed.",
+                "IP Address Renewed",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+                );
+        }
+
+        private void LoadUpdateDNSServers()
+        {
+            foreach ( string dnsAddress in WifiAdminTools.CurrentNetworkSettings.ReturnDNSServers())
+            {
+                dnsServersListBox.Items.Add(dnsAddress);
+            }
+        }
+
+        private void LoadMacAddress()
+        {
+            macAddressLabel.Text = WifiAdminTools.CurrentNetworkSettings.ReturnMacAddress();
+        }
+
+        private void DeveloperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(
+                "Developed by Ryan Trotter\n\nVisit developer's Github page?",
+                "About",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("https://www.github.com/rytrotter");
+            }
+        }
+
+        private void ThisProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(
+             "Visit this project's Github page?",
+             "About",
+             MessageBoxButtons.YesNo,
+             MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("https://github.com/rytrotter/Wireless-Administration-Tool");
+            }
         }
     }
 }
