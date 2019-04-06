@@ -36,8 +36,10 @@ namespace WirelessAdminTools
 
         private void RefreshCurrentNetworkInformation()
         {
+            ShowConnectedInterfaceName();
             UpdateConnectionState();
-            ShowCurrentConnectedNetwork();
+            ShowConnectedNetworkName();
+            ShowConnectedNetworkSecurity();
             ShowCurrentIPv4Address();
             ShowCurrentGatewayAddress();
             ShowCurrentIPv4Netmask();
@@ -73,9 +75,14 @@ namespace WirelessAdminTools
             }
         }
 
+        private void ShowConnectedInterfaceName()
+        {
+            interfaceNameLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnInterfaceName();
+        }
+
         private void UpdateConnectionState()
         {
-            string path = "..\\..\\Assets\\";   
+            string path = "..\\..\\Assets\\";
             if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
             {
                 connectionStatePicBox.ImageLocation = path + "greenCheckMark.png";
@@ -86,9 +93,14 @@ namespace WirelessAdminTools
             }
         }
 
-        private void ShowCurrentConnectedNetwork()
+        private void ShowConnectedNetworkName()
         {
             networkNameLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnNetworkName();
+        }
+
+        private void ShowConnectedNetworkSecurity()
+        {
+            connectedNetworkSecurityLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnNetworkSecurityType();
         }
 
         private void ShowCurrentIPv4Address()
@@ -98,12 +110,13 @@ namespace WirelessAdminTools
 
         private void ShowCurrentGatewayAddress()
         {
-            gatewayLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
+            gatewayListBox.Items.Clear();
+            gatewayListBox.Items.Add(WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway());
         }
 
         private void ShowCurrentIPv4Netmask()
         {
-          ipv4NetmaskLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnIPv4Netmask();
+            ipv4NetmaskLabelBox.Text = WifiAdminTools.CurrentNetworkSettings.ReturnIPv4Netmask();
         }
 
         private void ShowCurrentIPv6Address()
@@ -132,7 +145,7 @@ namespace WirelessAdminTools
             string gatewayAddress = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
             try
             {
-                    System.Diagnostics.Process.Start(gatewayAddress);
+                System.Diagnostics.Process.Start(gatewayAddress);
             }
             catch
             {
@@ -144,20 +157,11 @@ namespace WirelessAdminTools
             }
         }
 
-        private void RenewButton_Click(object sender, EventArgs e)
-        {
-            WifiAdminTools.CurrentNetworkSettings.RenewAdapter();
-            MessageBox.Show(
-                "IP address has been renewed.",
-                "IP Address Renewed",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-                );
-        }
-
         private void LoadUpdateDNSServers()
         {
-            foreach ( string dnsAddress in WifiAdminTools.CurrentNetworkSettings.ReturnDNSServers())
+            dnsServersListBox.Items.Clear();
+
+            foreach (string dnsAddress in WifiAdminTools.CurrentNetworkSettings.ReturnDNSServers())
             {
                 dnsServersListBox.Items.Add(dnsAddress);
             }
@@ -189,6 +193,108 @@ namespace WirelessAdminTools
              MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 System.Diagnostics.Process.Start("https://github.com/rytrotter/Wireless-Administration-Tool");
+            }
+        }
+
+        private void ForgetNetworkButton_Click(object sender, EventArgs e)
+        {
+            WifiAdminTools.Networking.ForgetCurrentNetwork();
+            RefreshCurrentNetworkInformation();
+        }
+
+        private void DnsServersListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (dnsServersListBox.SelectedIndex != -1)
+            {
+                var row = dnsServersListBox.GetItemRectangle(dnsServersListBox.SelectedIndex);
+                if (row.Contains(e.Location))
+                {
+                    if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
+                    {
+                        if (MessageBox.Show(
+                        "Ping " + dnsServersListBox.SelectedItem.ToString() + "?",
+                        "Ping DNS Server?",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information) == DialogResult.Yes)
+                        {
+                            if (WifiAdminTools.Networking.pingAddress(dnsServersListBox.SelectedItem.ToString()) == true)
+                            {
+                                MessageBox.Show(
+                                "Ping to " + dnsServersListBox.SelectedItem.ToString() + " successful.",
+                                "Ping Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                "Ping to " + dnsServersListBox.SelectedItem.ToString() + " failed.",
+                                "Ping Fail",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                            "You're not connected to the internet.\n\nConnect and try again.",
+                            "Not Connected to Network",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CurrentNetworkNetworkListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadUpdateScannedNetworkList();
+            RefreshCurrentNetworkInformation();
+        }
+
+        private void GatewayListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (gatewayListBox.SelectedIndex != -1)
+            {
+                var row = gatewayListBox.GetItemRectangle(gatewayListBox.SelectedIndex);
+                if (row.Contains(e.Location))
+                {
+                    if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
+                    {
+                        if (MessageBox.Show(
+                            "Ping " + gatewayListBox.SelectedItem.ToString() + "?",
+                            "Ping DNS Server?",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information) == DialogResult.Yes)
+                        {
+                            if (WifiAdminTools.Networking.pingAddress(gatewayListBox.SelectedItem.ToString()) == true)
+                            {
+                                MessageBox.Show(
+                                "Ping to " + gatewayListBox.SelectedItem.ToString() + " successful.",
+                                "Ping Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                "Ping to " + gatewayListBox.SelectedItem.ToString() + " failed.",
+                                "Ping Fail",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                            "You're not connected to the internet.\n\nConnect and try again.",
+                            "Not Connected to Network",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        }
+                    }
+                }
             }
         }
     }

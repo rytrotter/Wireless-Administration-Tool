@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.Net.Sockets;
-using System.Text;
-using NativeWifi;
-using System.Net;
+﻿using NativeWifi;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
 
 namespace WifiAdminTools
 {
@@ -20,11 +20,21 @@ namespace WifiAdminTools
                 {
                     return true;
                 }
-            } 
+            }
             catch
             {
                 return false;
             }
+        }
+
+        public static string ReturnInterfaceName()
+        {
+            string interfaceName = string.Empty;
+            foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
+            {
+                interfaceName = wlanInterface.InterfaceName.ToString();
+            }
+            return interfaceName;
         }
 
         public static string ReturnNetworkName()
@@ -42,84 +52,114 @@ namespace WifiAdminTools
             {
                 if (string.IsNullOrEmpty(connectedNetwork))
                 {
-                    connectedNetwork = "Not Connected";
+                    connectedNetwork = SocketError.NotConnected.ToString();
                 }
             }
 
             return connectedNetwork;
         }
 
+        public static string ReturnNetworkSecurityType()
+        {
+            string securityType = string.Empty;
+            try
+            {
+                foreach (WlanClient.WlanInterface wlaninterface in Networking.client.Interfaces)
+                {
+                    securityType = wlaninterface.CurrentConnection.wlanSecurityAttributes.dot11CipherAlgorithm.ToString();
+                }
+            }
+            catch
+            {
+                securityType = SocketError.NotConnected.ToString();
+            }
+            return securityType;
+        }
+
         public static string ReturnCurrentIPv4()
-        { 
+        {
+            string ipv4Address = string.Empty;
 
             foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
             {
                 foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().UnicastAddresses)
                 {
-                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork)
+                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork && IsConnected() == true)
                     {
-                        return ipAddr.Address.ToString();
+                        ipv4Address = ipAddr.Address.ToString();
+                    }
+                    else
+                    {
+                        ipv4Address = SocketError.NotConnected.ToString();
                     }
                 }
             }
 
-            return SocketError.NotConnected.ToString();
+            return ipv4Address;
         }
 
         public static string ReturnCurrentIPv6()
         {
+            string ipv6Address = string.Empty;
 
             foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
             {
                 foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().UnicastAddresses)
                 {
-                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetworkV6)
+                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetworkV6 && IsConnected() == true)
                     {
-                        return ipAddr.Address.ToString();
+                        ipv6Address = ipAddr.Address.ToString();
+                    }
+                    else
+                    {
+                        ipv6Address = SocketError.NotConnected.ToString();
                     }
                 }
             }
 
-            return SocketError.NotConnected.ToString();
+            return ipv6Address;
         }
 
         public static string ReturnIPv4Netmask()
         {
+            string ipv4Netmask = string.Empty;
+
             foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
             {
                 foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().UnicastAddresses)
                 {
-                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork)
+                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork && IsConnected() == true)
                     {
-                        return ipAddr.IPv4Mask.ToString();
+                        ipv4Netmask = ipAddr.IPv4Mask.ToString();
+                    }
+                    else
+                    {
+                        ipv4Netmask = SocketError.NotConnected.ToString();
                     }
                 }
             }
-            return SocketError.NotConnected.ToString();
+            return ipv4Netmask;
         }
 
         public static string ReturnCurrentGateway()
         {
+            string gateway = string.Empty;
+
             foreach (WlanClient.WlanInterface wlanInterface in Networking.client.Interfaces)
             {
                 foreach (var ipAddr in wlanInterface.NetworkInterface.GetIPProperties().GatewayAddresses)
                 {
-                    return ipAddr.Address.ToString();
+                    if (ipAddr.Address.AddressFamily == AddressFamily.InterNetwork && IsConnected() == true)
+                    {
+                        gateway = ipAddr.Address.ToString();
+                    }
+                    else
+                    {
+                        gateway = SocketError.NotConnected.ToString();
+                    }
                 }
             }
-            return SocketError.NotConnected.ToString();
-        }
-
-        public static void RenewAdapter()
-        {
-            ProcessStartInfo procStartInfo = new ProcessStartInfo
-            {
-                FileName = "ipconfig",
-                Arguments = "/renew",
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
-            Process proc = Process.Start(procStartInfo);
-            proc.WaitForExit();
+            return gateway;
         }
 
         public static List<string> ReturnDNSServers()
@@ -130,7 +170,7 @@ namespace WifiAdminTools
             {
                 foreach (var dnsAddr in wlanInterface.NetworkInterface.GetIPProperties().DnsAddresses)
                 {
-                    if (string.IsNullOrWhiteSpace(dnsAddr.ToString()))
+                    if (CurrentNetworkSettings.IsConnected() == false)
                     {
                         dnsServerAddresses.Add(SocketError.NotConnected.ToString());
                     }
@@ -156,3 +196,4 @@ namespace WifiAdminTools
 
     }
 }
+
