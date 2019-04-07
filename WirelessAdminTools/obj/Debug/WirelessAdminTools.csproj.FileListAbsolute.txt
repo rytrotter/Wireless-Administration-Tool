@@ -22,3 +22,4 @@ D:\3_C#\WirelessAdminTools\WirelessAdminTools\obj\Debug\WirelessAdminTools.cspro
 D:\3_C#\WirelessAdminTools\WirelessAdminTools\obj\Debug\WirelessAdminTools.csproj.CopyComplete
 D:\3_C#\WirelessAdminTools\WirelessAdminTools\obj\Debug\WirelessAdminTools.exe
 D:\3_C#\WirelessAdminTools\WirelessAdminTools\obj\Debug\WirelessAdminTools.pdb
+D:\3_C#\WirelessAdminTools\WirelessAdminTools\bin\Debug\SimpleWifi.dll

@@ -45,6 +45,7 @@ namespace WirelessAdminTools
             this.ipv6PromptLabelBox = new System.Windows.Forms.Label();
             this.ipv6LableBox = new System.Windows.Forms.Label();
             this.ipv4GroupBox = new System.Windows.Forms.GroupBox();
+            this.gatewayListBox = new System.Windows.Forms.ListBox();
             this.macAddressLabel = new System.Windows.Forms.Label();
             this.macAddressPromptLabel = new System.Windows.Forms.Label();
             this.dnsServersGroupBox = new System.Windows.Forms.GroupBox();
@@ -65,12 +66,14 @@ namespace WirelessAdminTools
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.availableNetworksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentNetworkInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentNetworkNetworkListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thisProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.currentNetworkNetworkListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gatewayListBox = new System.Windows.Forms.ListBox();
+            this.selectedNetworkPromptLabel = new System.Windows.Forms.Label();
+            this.selectedNetworkListBox = new System.Windows.Forms.ListBox();
+            this.connectButton = new System.Windows.Forms.Button();
             rootColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ssidGroupBox.SuspendLayout();
             this.currentNetworkGroupBox.SuspendLayout();
@@ -116,6 +119,7 @@ namespace WirelessAdminTools
             this.networkListView.TabIndex = 0;
             this.networkListView.UseCompatibleStateImageBehavior = false;
             this.networkListView.View = System.Windows.Forms.View.Details;
+            this.networkListView.SelectedIndexChanged += new System.EventHandler(this.NetworkListView_SelectedIndexChanged);
             // 
             // ssidHeader
             // 
@@ -126,18 +130,19 @@ namespace WirelessAdminTools
             // 
             this.securityHeader.Text = "Security:";
             this.securityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.securityHeader.Width = 58;
             // 
             // strengthHeader
             // 
             this.strengthHeader.Text = "Strength:";
             this.strengthHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.strengthHeader.Width = 58;
+            this.strengthHeader.Width = 57;
             // 
             // ssidScanButton
             // 
             this.ssidScanButton.Location = new System.Drawing.Point(12, 510);
             this.ssidScanButton.Name = "ssidScanButton";
-            this.ssidScanButton.Size = new System.Drawing.Size(144, 31);
+            this.ssidScanButton.Size = new System.Drawing.Size(361, 31);
             this.ssidScanButton.TabIndex = 1;
             this.ssidScanButton.Text = "Rescan Networks";
             this.ssidScanButton.UseVisualStyleBackColor = true;
@@ -264,6 +269,17 @@ namespace WirelessAdminTools
             this.ipv4GroupBox.TabIndex = 13;
             this.ipv4GroupBox.TabStop = false;
             this.ipv4GroupBox.Text = "IPv4 Information";
+            // 
+            // gatewayListBox
+            // 
+            this.gatewayListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gatewayListBox.FormattingEnabled = true;
+            this.gatewayListBox.ItemHeight = 16;
+            this.gatewayListBox.Location = new System.Drawing.Point(38, 105);
+            this.gatewayListBox.Name = "gatewayListBox";
+            this.gatewayListBox.Size = new System.Drawing.Size(115, 20);
+            this.gatewayListBox.TabIndex = 13;
+            this.gatewayListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.GatewayListBox_MouseDoubleClick);
             // 
             // macAddressLabel
             // 
@@ -448,7 +464,7 @@ namespace WirelessAdminTools
             this.currentNetworkInformationToolStripMenuItem,
             this.currentNetworkNetworkListToolStripMenuItem});
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.refreshToolStripMenuItem.Text = "Refresh...";
             // 
             // availableNetworksToolStripMenuItem
@@ -465,10 +481,17 @@ namespace WirelessAdminTools
             this.currentNetworkInformationToolStripMenuItem.Text = "Current Network Information";
             this.currentNetworkInformationToolStripMenuItem.Click += new System.EventHandler(this.CurrentNetworkInformationToolStripMenuItem_Click);
             // 
+            // currentNetworkNetworkListToolStripMenuItem
+            // 
+            this.currentNetworkNetworkListToolStripMenuItem.Name = "currentNetworkNetworkListToolStripMenuItem";
+            this.currentNetworkNetworkListToolStripMenuItem.Size = new System.Drawing.Size(455, 26);
+            this.currentNetworkNetworkListToolStripMenuItem.Text = "Current Network Information and Available Network List";
+            this.currentNetworkNetworkListToolStripMenuItem.Click += new System.EventHandler(this.CurrentNetworkNetworkListToolStripMenuItem_Click);
+            // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             // 
@@ -496,29 +519,44 @@ namespace WirelessAdminTools
             this.thisProjectToolStripMenuItem.Text = "This Project";
             this.thisProjectToolStripMenuItem.Click += new System.EventHandler(this.ThisProjectToolStripMenuItem_Click);
             // 
-            // currentNetworkNetworkListToolStripMenuItem
+            // selectedNetworkPromptLabel
             // 
-            this.currentNetworkNetworkListToolStripMenuItem.Name = "currentNetworkNetworkListToolStripMenuItem";
-            this.currentNetworkNetworkListToolStripMenuItem.Size = new System.Drawing.Size(455, 26);
-            this.currentNetworkNetworkListToolStripMenuItem.Text = "Current Network Information and Available Network List";
-            this.currentNetworkNetworkListToolStripMenuItem.Click += new System.EventHandler(this.CurrentNetworkNetworkListToolStripMenuItem_Click);
+            this.selectedNetworkPromptLabel.AutoSize = true;
+            this.selectedNetworkPromptLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectedNetworkPromptLabel.Location = new System.Drawing.Point(444, 77);
+            this.selectedNetworkPromptLabel.Name = "selectedNetworkPromptLabel";
+            this.selectedNetworkPromptLabel.Size = new System.Drawing.Size(139, 17);
+            this.selectedNetworkPromptLabel.TabIndex = 21;
+            this.selectedNetworkPromptLabel.Text = "Selected Network:";
             // 
-            // gatewayListBox
+            // selectedNetworkListBox
             // 
-            this.gatewayListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gatewayListBox.FormattingEnabled = true;
-            this.gatewayListBox.ItemHeight = 16;
-            this.gatewayListBox.Location = new System.Drawing.Point(38, 105);
-            this.gatewayListBox.Name = "gatewayListBox";
-            this.gatewayListBox.Size = new System.Drawing.Size(115, 20);
-            this.gatewayListBox.TabIndex = 13;
-            this.gatewayListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.GatewayListBox_MouseDoubleClick);
+            this.selectedNetworkListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectedNetworkListBox.FormattingEnabled = true;
+            this.selectedNetworkListBox.ItemHeight = 16;
+            this.selectedNetworkListBox.Location = new System.Drawing.Point(447, 109);
+            this.selectedNetworkListBox.Name = "selectedNetworkListBox";
+            this.selectedNetworkListBox.Size = new System.Drawing.Size(136, 20);
+            this.selectedNetworkListBox.TabIndex = 17;
+            // 
+            // connectButton
+            // 
+            this.connectButton.Location = new System.Drawing.Point(447, 194);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(136, 36);
+            this.connectButton.TabIndex = 22;
+            this.connectButton.Text = "Connect";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
             // WifiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1063, 553);
+            this.Controls.Add(this.connectButton);
+            this.Controls.Add(this.selectedNetworkListBox);
+            this.Controls.Add(this.selectedNetworkPromptLabel);
             this.Controls.Add(this.reloadNetInfoButton);
             this.Controls.Add(this.currentNetworkGroupBox);
             this.Controls.Add(this.ssidScanButton);
@@ -588,6 +626,9 @@ namespace WirelessAdminTools
         private System.Windows.Forms.Button forgetNetworkButton;
         private System.Windows.Forms.ToolStripMenuItem currentNetworkNetworkListToolStripMenuItem;
         private System.Windows.Forms.ListBox gatewayListBox;
+        private System.Windows.Forms.Label selectedNetworkPromptLabel;
+        private System.Windows.Forms.ListBox selectedNetworkListBox;
+        private System.Windows.Forms.Button connectButton;
     }
 }
 
