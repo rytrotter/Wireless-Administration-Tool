@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using NativeWifi;
@@ -51,7 +51,8 @@ namespace WifiAdminTools
                 }
                 
             }
-            
+
+            listOfNetworks = listOfNetworks.OrderByDescending(s => s.SignalStrength).ToList();
             return listOfNetworks;
         }
     }

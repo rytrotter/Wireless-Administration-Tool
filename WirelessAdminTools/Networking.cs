@@ -1,12 +1,31 @@
 ﻿using System;
+using System.Net;
 using System.Net.NetworkInformation;
 using NativeWifi;
+using SimpleWifi;
 
 namespace WifiAdminTools
 {
     class Networking
     {
         public static WlanClient client = new WlanClient(); // Making this a method prevents too many sessions opening and causing errors
+
+        // A super high tech way of checking if computer is currently connected to internet
+        public static bool IsConnected()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (var stream = client.OpenRead("https://www.google.com"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public class ScannedNetworkInfo
         {
@@ -49,6 +68,11 @@ namespace WifiAdminTools
                     wlanInterface.DeleteProfile(wlanInterface.CurrentConnection.profileName.ToString());
                 }
             }
+        }
+
+        public static void ConnectToNetwork(string networkToConnectTo)
+        {
+            
         }
     }
 }

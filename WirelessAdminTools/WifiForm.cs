@@ -31,7 +31,16 @@ namespace WirelessAdminTools
 
         private void NetworkListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (networkListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
+            selectedNetworkListBox.Items.Clear();
+
+            ListViewItem listViewItem = networkListView.SelectedItems[0];
+
+            selectedNetworkListBox.Items.Add(listViewItem.SubItems[1].Text);
         }
 
         private void RefreshCurrentNetworkInformation()
@@ -83,7 +92,7 @@ namespace WirelessAdminTools
         private void UpdateConnectionState()
         {
             string path = "..\\..\\Assets\\";
-            if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
+            if (WifiAdminTools.Networking.IsConnected() == true)
             {
                 connectionStatePicBox.ImageLocation = path + "greenCheckMark.png";
             }
@@ -209,7 +218,7 @@ namespace WirelessAdminTools
                 var row = dnsServersListBox.GetItemRectangle(dnsServersListBox.SelectedIndex);
                 if (row.Contains(e.Location))
                 {
-                    if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
+                    if (WifiAdminTools.Networking.IsConnected() == true)
                     {
                         if (MessageBox.Show(
                         "Ping " + dnsServersListBox.SelectedItem.ToString() + "?",
@@ -234,18 +243,19 @@ namespace WirelessAdminTools
                                 MessageBoxIcon.Error);
                             }
                         }
-                        else
-                        {
-                            MessageBox.Show(
-                            "You're not connected to the internet.\n\nConnect and try again.",
-                            "Not Connected to Network",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                        "You're not connected to the internet.\n\nConnect and try again.",
+                        "Not Connected to Network",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
 
         private void CurrentNetworkNetworkListToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -260,7 +270,7 @@ namespace WirelessAdminTools
                 var row = gatewayListBox.GetItemRectangle(gatewayListBox.SelectedIndex);
                 if (row.Contains(e.Location))
                 {
-                    if (WifiAdminTools.CurrentNetworkSettings.IsConnected() == true)
+                    if (WifiAdminTools.Networking.IsConnected() == true)
                     {
                         if (MessageBox.Show(
                             "Ping " + gatewayListBox.SelectedItem.ToString() + "?",
@@ -285,17 +295,31 @@ namespace WirelessAdminTools
                                 MessageBoxIcon.Error);
                             }
                         }
-                        else
-                        {
-                            MessageBox.Show(
-                            "You're not connected to the internet.\n\nConnect and try again.",
-                            "Not Connected to Network",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                        "You're not connected to the internet.\n\nConnect and try again.",
+                        "Not Connected to Network",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            if (networkListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            ListViewItem listViewItem = networkListView.SelectedItems[0];
+            WifiAdminTools.Networking.ConnectToNetwork(listViewItem.SubItems[1].ToString());
+        }
     }
 }
+
+
+
