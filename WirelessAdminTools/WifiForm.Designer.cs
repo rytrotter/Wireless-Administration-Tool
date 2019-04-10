@@ -29,6 +29,7 @@ namespace WirelessAdminTools
         private void InitializeComponent()
         {
             System.Windows.Forms.ColumnHeader rootColumnHeader;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WifiForm));
             this.ssidGroupBox = new System.Windows.Forms.GroupBox();
             this.networkListView = new System.Windows.Forms.ListView();
             this.ssidHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -562,6 +563,7 @@ namespace WirelessAdminTools
             this.Controls.Add(this.ssidScanButton);
             this.Controls.Add(this.ssidGroupBox);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "WifiForm";

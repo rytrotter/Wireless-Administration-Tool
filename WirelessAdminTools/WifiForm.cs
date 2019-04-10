@@ -151,7 +151,7 @@ namespace WirelessAdminTools
 
         private void OpenGatewayButton_Click(object sender, EventArgs e)
         {
-            string gatewayAddress = WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
+            string gatewayAddress = "http://" + WifiAdminTools.CurrentNetworkSettings.ReturnCurrentGateway();
             try
             {
                 System.Diagnostics.Process.Start(gatewayAddress);
@@ -255,7 +255,6 @@ namespace WirelessAdminTools
                 }
             }
         }
-
 
         private void CurrentNetworkNetworkListToolStripMenuItem_Click(object sender, EventArgs e)
         {
