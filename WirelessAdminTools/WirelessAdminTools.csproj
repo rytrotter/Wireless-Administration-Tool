@@ -94,6 +94,7 @@
     <Content Include="Assets\GoToNewPage_Icon.png" />
     <Content Include="Assets\greenCheckMark.png" />
     <Content Include="Assets\redXMark.png" />
+    <Content Include="Assets\WirelessLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
